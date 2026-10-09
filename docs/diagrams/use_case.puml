@@ -1,0 +1,71 @@
+@startuml use_case
+left to right direction
+skinparam packageStyle rectangle
+
+actor "Официант" as Waiter
+actor "Повар" as Cook
+actor "Администратор" as Admin
+
+rectangle "Система учёта заказов в кафе" {
+
+    usecase "Авторизоваться\nв системе" as UC_Auth
+
+    ' --- Официант ---
+    usecase "Создать заказ" as UC_Create
+    usecase "Указать столик" as UC_Table
+    usecase "Добавить\nпозицию" as UC_AddItem
+    usecase "Добавить\nкомментарий" as UC_Comment
+    usecase "Проверить\nстатусы заказов" as UC_Status
+    usecase "Отфильтровать\nзаказы" as UC_FilterOrders
+    usecase "Составить счёт" as UC_Bill
+    usecase "Посчитать сумму" as UC_Sum
+    usecase "Закрыть счёт" as UC_CloseBill
+    usecase "Распечатать чек" as UC_Receipt
+
+    ' --- Повар ---
+    usecase "Получить очередь\nзаказов" as UC_Queue
+    usecase "Изменить статус\nзаказа" as UC_ChangeStatus
+
+    ' --- Администратор ---
+    usecase "Редактировать\nменю" as UC_EditMenu
+    usecase "Получить отчёт\nпо счетам" as UC_Report
+    usecase "Отфильтровать\nотчёт" as UC_FilterReport
+    usecase "Управлять\nпользователями" as UC_Users
+}
+
+' === Связи актёров (сплошные линии) ===
+Waiter --> UC_Create
+Waiter --> UC_Status
+Waiter --> UC_Bill
+Waiter --> UC_CloseBill
+
+Cook --> UC_Queue
+Cook --> UC_ChangeStatus
+
+Admin --> UC_EditMenu
+Admin --> UC_Report
+Admin --> UC_Users
+
+' === Include-связи (пунктир) — направление как на схеме ===
+UC_Create ..> UC_Table : Include
+UC_Create ..> UC_AddItem : Include
+UC_Status ..> UC_Auth : Include
+UC_Bill ..> UC_Auth : Include
+UC_Bill ..> UC_Sum : Include
+UC_CloseBill ..> UC_Auth : Include
+UC_Queue ..> UC_Auth : Include
+UC_ChangeStatus ..> UC_Auth : Include
+UC_EditMenu ..> UC_Auth : Include
+UC_Report ..> UC_Auth : Include
+UC_Users ..> UC_Auth : Include
+
+' === Extend-связи (пунктир) — направление как на схеме ===
+UC_Comment ..> UC_Create : Extend
+UC_FilterOrders ..> UC_Status : Extend
+UC_Receipt ..> UC_CloseBill : Extend
+UC_FilterReport ..> UC_Report : Extend
+
+' === Общая Include от Авторизации (как на схеме) ===
+UC_Auth ..> UC_ChangeStatus : Include
+
+@enduml
