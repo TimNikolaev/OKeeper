@@ -137,26 +137,6 @@ okeeper/
 
 ---
 
-## Диаграммы
-
-### Use Case — диаграмма вариантов использования
-
-![Use Case](docs/diagrams/use_case.png)
-
-### Activity — диаграмма деятельности официанта
-
-![Activity Waiter](docs/diagrams/activity_waiter.png)
-
-### Activity — диаграмма деятельности повара
-
-![Activity Cook](docs/diagrams/activity_cook.png)
-
-### Activity — диаграмма деятельности администратора
-
-![Activity Admin](docs/diagrams/activity_admin.png)
-
----
-
 ## Установка и запуск
 
 ### Требования
