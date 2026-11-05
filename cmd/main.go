@@ -3,11 +3,11 @@ package main
 import (
 	"log"
 
-	"github.com/TimNikolaev/OKeeper/internal/repository"
+	"github.com/TimNikolaev/OKeeper/internal/repository/sqlite"
 )
 
 func main() {
-	repo, err := repository.New("./data/main.db")
+	repo, err := sqlite.NewRepository("./data/main.db")
 	if err != nil {
 		log.Fatal(err)
 	}

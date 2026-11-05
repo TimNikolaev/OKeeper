@@ -1,10 +1,11 @@
-package repository
+package sqlite
 
 import (
 	"database/sql"
 	"fmt"
 	"os"
 
+	"github.com/TimNikolaev/OKeeper/internal/repository"
 	_ "modernc.org/sqlite"
 )
 
@@ -12,7 +13,7 @@ type Repository struct {
 	db *sql.DB
 }
 
-func New(initBasePath string) (*Repository, error) {
+func NewRepository(initBasePath string) (*Repository, error) {
 	db, err := sql.Open("sqlite", initBasePath)
 	if err != nil {
 		return nil, fmt.Errorf("open db: %w", err)
@@ -36,4 +37,20 @@ func (r *Repository) Init(schemaPath string) error {
 	}
 
 	return nil
+}
+
+func (r *Repository) Users() repository.UserRepository {
+	return &userRepo{db: r.db}
+}
+
+func (r *Repository) Dishes() repository.DishRepository {
+	return &dishRepo{db: r.db}
+}
+
+func (r *Repository) Orders() repository.OrderRepository {
+	return &orderRepo{db: r.db}
+}
+
+func (r *Repository) Bills() repository.BillRepository {
+	return &billRepo{db: r.db}
 }
