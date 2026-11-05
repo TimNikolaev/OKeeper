@@ -40,5 +40,16 @@ CREATE TABLE IF NOT EXISTS orders_dishes
     comment      TEXT
 );
 
+CREATE TABLE IF NOT EXISTS bills
+(
+    id           INTEGER PRIMARY KEY,
+    order_id     INTEGER NOT NULL UNIQUE REFERENCES orders(id) ON DELETE CASCADE,
+    total_amount INTEGER NOT NULL CHECK (total_amount >= 0),
+    is_paid      INTEGER NOT NULL DEFAULT 0 CHECK (is_paid IN (0, 1)),
+    created_at   DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    closed_at    DATETIME
+);
+
+CREATE INDEX IF NOT EXISTS idx_bills_order ON bills(order_id);
 CREATE INDEX IF NOT EXISTS idx_orders_dishes_order ON orders_dishes(order_id);
 CREATE INDEX IF NOT EXISTS idx_orders_dishes_dish  ON orders_dishes(dish_id);
